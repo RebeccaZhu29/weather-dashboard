@@ -81,7 +81,7 @@ const renderCurrentWeather = (currentWeather: any): void => {
     currentWeather;
 
   // convert the following to typescript
-  heading.textContent = `${city} (${date})`;
+  heading.textContent = `${city} (${new Date(date * 1000).toLocaleDateString()})`;
   weatherIcon.setAttribute(
     'src',
     `https://openweathermap.org/img/w/${icon}.png`
@@ -124,7 +124,7 @@ const renderForecastCard = (forecast: any) => {
     createForecastCard();
 
   // Add content to elements
-  cardTitle.textContent = date;
+  cardTitle.textContent = `${new Date(date * 1000).toLocaleDateString()}`
   weatherIcon.setAttribute(
     'src',
     `https://openweathermap.org/img/w/${icon}.png`
