@@ -8,7 +8,7 @@ import WeatherService from '../../service/weatherService.js';
 router.post('/', async (req: Request, res: Response) => {
   // TODO: GET weather data from city name
   try {
-    const cityName = JSON.parse(req.body).cityName
+    const cityName = req.body.cityName
     const weatherData = await WeatherService.getWeatherForCity(cityName)
     // TODO: save city to search history
     await HistoryService.addCity(cityName);
@@ -20,7 +20,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // TODO: GET search history
-router.get('/history', async (req: Request, res: Response) => {
+router.get('/history', async (_req: Request, res: Response) => {
   try {
     const savedCities = await HistoryService.getCities();
     res.json(savedCities);
