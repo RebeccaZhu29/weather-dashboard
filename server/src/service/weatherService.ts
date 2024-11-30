@@ -93,7 +93,7 @@ class WeatherService {
   }
 
   private buildForecastArray(currentWeather: Weather, weatherData: any[]): Weather[] {
-    const futureWeather = weatherData.map(weather => ({
+    const futureWeather = weatherData.filter((_, index) => index % 8 == 0).map(weather => ({
       date: weather.dt,
       icon: weather.weather[0].icon,
       iconDescription: weather.weather[0].description,
