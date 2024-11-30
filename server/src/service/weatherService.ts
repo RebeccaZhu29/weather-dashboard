@@ -9,8 +9,8 @@ interface Coordinates {
 class Weather {
   city?: string; // .city.name
   date?: Date; // .list[i].dt or dt_txt
-  icon?: string; // .list[i].weather.icon
-  iconDescription?: string // .list[i].weather.description
+  icon?: string; // .list[i].weather[i].icon
+  iconDescription?: string // .list[i].weather[i].description
   tempF?: number // .list[i].main.temp
   windSpeed?: number // .list[i].wind.speed
   humidity?: number // .list[i].main.humidity
@@ -24,8 +24,6 @@ class WeatherService {
   constructor() {
     this.baseURL = process.env.API_BASE_URL || '';
     this.apiKey = process.env.API_KEY || '';
-    console.log('baseURL', this.baseURL);
-    console.log('apiKey', this.apiKey);
   }
 
   private async fetchLocationData(query: string) {
@@ -86,8 +84,8 @@ class WeatherService {
     return {
       city: response.city.name,
       date: currentWeather.dt,
-      icon: currentWeather.weather.icon,
-      iconDescription: currentWeather.weather.description,
+      icon: currentWeather.weather[0].icon,
+      iconDescription: currentWeather.weather[0].description,
       tempF: currentWeather.main.temp,
       windSpeed: currentWeather.wind.speed,
       humidity: currentWeather.main.humidity,
@@ -97,14 +95,15 @@ class WeatherService {
   private buildForecastArray(currentWeather: Weather, weatherData: any[]): Weather[] {
     const futureWeather = weatherData.map(weather => ({
       date: weather.dt,
-      icon: weather.weather.icon,
-      iconDescription: weather.weather.description,
+      icon: weather.weather[0].icon,
+      iconDescription: weather.weather[0].description,
       tempF: weather.main.temp,
       windSpeed: weather.wind.speed,
       humidity: weather.main.humidity,
     }));
     return [currentWeather].concat(futureWeather);
   }
+
   async getWeatherForCity(city: string) {
     this.cityName = city;
     try {
